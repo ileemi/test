@@ -2,7 +2,10 @@ https://www.anquanke.com/post/id/265090#h2-3
 https://www.freebuf.com/articles/web/307183.html
 https://c.runoob.com/compile/10/
 
+// beacon config change
 https://www.anquanke.com/post/id/265090#h2-7
+
+
 index.js
 index.html
 load.js
