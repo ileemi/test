@@ -20,3 +20,7 @@ int main() {
 }
 
 https://www.macchiato.ink/hst/bypassav/imitation_cs/
+https://paper.seebug.org/1349/
+https://github.com/rsmudge/Malleable-C2-Profiles/tree/master/APT
+https://blog.csdn.net/weixin_39525355/article/details/111263172
+https://blog.csdn.net/m0_50526465/article/details/116465013
