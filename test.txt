@@ -24,3 +24,40 @@ https://paper.seebug.org/1349/
 https://github.com/rsmudge/Malleable-C2-Profiles/tree/master/APT
 https://blog.csdn.net/weixin_39525355/article/details/111263172
 https://blog.csdn.net/m0_50526465/article/details/116465013
+
+
+#include <stdio.h>
+#include <assert.h>
+#include <WS2tcpip.h>
+#include <WinSock2.h>
+
+#pragma comment(lib, "Ws2_32.lib")
+
+const char* domain = "www.baidu.com";
+
+int main()
+{
+	int n_error = 0;
+	WSADATA wsadata;
+	n_error = WSAStartup(MAKEWORD(2, 2), &wsadata);
+	//assert(n_error != 0);
+
+	in_addr remote_addr;
+	hostent* hptr = NULL;
+	char** pptr;
+	char str[MAX_PATH];
+
+	if ((hptr = (hostent*)gethostbyname(domain)) == NULL) {
+		int n_err = WSAGetLastError();
+		return 0;
+	}
+
+	if (hptr->h_addrtype == AF_INET) {
+		pptr = hptr->h_addr_list;
+		for (; *pptr != NULL; pptr++) {
+			printf("%s\n", inet_ntop(hptr->h_addrtype, *pptr, str, sizeof(str)));
+		}
+	}
+
+	return 0;
+}
