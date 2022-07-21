@@ -63,13 +63,14 @@ int main()
 }
 
 ////////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <string.h>
 #include <WinSock2.h>
 #include <Windows.h>
 #pragma comment(lib,"ws2_32.lib")
 /*
-* 	µØÖ·ÎªIP·µ»Øtrue ÆäËû·µ»Øfalse
+* 	地址为IP返回true 其他返回false
 */
 BOOL server_is_ip(char* server)
 {
@@ -83,18 +84,18 @@ BOOL server_is_ip(char* server)
         return FALSE;
     }
 
-    //¼ì²éIP·¶Î§
+    //检查IP范围
     for (int i = 0; i < 4; i++)
     {
         ip_i = 0;
         for (int j = 0; j < 4; j++)
         {
-            //1.×Ö·ûÎª0-9µÄÊý×Ö
+            //1.字符为0-9的数字
             if (3 != j && isdigit(ptr[ptr_i]))
             {
                 ip[i][ip_i++] = ptr[ptr_i++];
             }
-            //2.×Ö·ûÎª'.'·Ö¸ô·û
+            //2.字符为'.'分隔符
             else if (3 != i && 0 != j && '.' == ptr[ptr_i])
             {
                 ip[i][ip_i++] = '\0';
@@ -105,7 +106,7 @@ BOOL server_is_ip(char* server)
             {
                 return FALSE;
             }
-            //3.½áÊø
+            //3.结束
             if (ptr_len <= ptr_i)
             {
                 if (3 == i)
@@ -115,7 +116,7 @@ BOOL server_is_ip(char* server)
             }
         }
     }
-    //¼ì²éIP¸ñÊ½
+    //检查IP格式
     for (int z = 0; z < 4; z++)
         if (atoi(ip[z]) > 255) {
             return FALSE;
@@ -128,11 +129,11 @@ BOOL ip_or_hostname(char* name) {
     if (add == INADDR_NONE)
     {
         return FALSE;
-        printf("no ip£¬isÓòÃû");
+        printf("no ip，is域名");
     }
     else {
         return TRUE;
-        printf("no ÓòÃû£¬is ip");
+        printf("no 域名，is ip");
     }
 
     
