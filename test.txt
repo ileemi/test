@@ -144,7 +144,6 @@ int main(void)
 {
     ip_or_hostname(NULL);
     char* servers[] = {
-        (char*)"www.mi.com",
         (char*)"58.83.160.156",
         (char*)"91.185.0.88",
         (char*)"ff.185.0.88",
