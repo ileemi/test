@@ -61,3 +61,114 @@ int main()
 
 	return 0;
 }
+
+////////////////////////////////////////////////////////////////////////////////////
+#include <stdio.h>
+#include <string.h>
+#include <WinSock2.h>
+#include <Windows.h>
+#pragma comment(lib,"ws2_32.lib")
+/*
+* 	µØÖ·ÎªIP·µ»Øtrue ÆäËû·µ»Øfalse
+*/
+BOOL server_is_ip(char* server)
+{
+    char ip[4][4] = { 0 };
+    int  ip_i = 0;
+    char* ptr = server;
+    int  ptr_i = 0;
+    int  ptr_len = strlen(server);
+
+    if (NULL == server || 15 < ptr_len) {
+        return FALSE;
+    }
+
+    //¼ì²éIP·¶Î§
+    for (int i = 0; i < 4; i++)
+    {
+        ip_i = 0;
+        for (int j = 0; j < 4; j++)
+        {
+            //1.×Ö·ûÎª0-9µÄÊý×Ö
+            if (3 != j && isdigit(ptr[ptr_i]))
+            {
+                ip[i][ip_i++] = ptr[ptr_i++];
+            }
+            //2.×Ö·ûÎª'.'·Ö¸ô·û
+            else if (3 != i && 0 != j && '.' == ptr[ptr_i])
+            {
+                ip[i][ip_i++] = '\0';
+                ptr_i++;
+                break;
+            }
+            else
+            {
+                return FALSE;
+            }
+            //3.½áÊø
+            if (ptr_len <= ptr_i)
+            {
+                if (3 == i)
+                    break;
+                else
+                    return FALSE;
+            }
+        }
+    }
+    //¼ì²éIP¸ñÊ½
+    for (int z = 0; z < 4; z++)
+        if (atoi(ip[z]) > 255) {
+            return FALSE;
+        }
+    return TRUE;
+}
+
+BOOL ip_or_hostname(char* name) {
+    unsigned long  add = inet_addr(name);
+    if (add == INADDR_NONE)
+    {
+        return FALSE;
+        printf("no ip£¬isÓòÃû");
+    }
+    else {
+        return TRUE;
+        printf("no ÓòÃû£¬is ip");
+    }
+
+    
+}
+
+
+int main(void)
+{
+    ip_or_hostname(NULL);
+    char* servers[] = {
+        (char*)"www.mi.com",
+        (char*)"58.83.160.156",
+        (char*)"91.185.0.88",
+        (char*)"ff.185.0.88",
+        (char*)"xx.185.0.88",
+        (char*)"91.185.0.88.",
+        (char*)"www.google.com",
+        (char*)"www.goog.com",
+        (char*)"91.185.0.258",
+        (char*)"255.255.255.255",
+        (char*)"91.185.0.",
+        (char*)".185.0.88",
+        (char*)"0.0.0.0",
+        (char*)"1.1.1.1",
+        (char*)"www.bing.com",
+        NULL
+    };
+
+    for (int i = 0;; i++)
+    {
+        if (servers[i] == NULL)
+            return 0;
+        printf("%s is %s\r\n", servers[i], server_is_ip(servers[i]) ? "IP" : "DNS");
+    }
+
+    return 0;
+}
+
+
